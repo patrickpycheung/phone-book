@@ -1,14 +1,33 @@
-# Prepare the base container image for the application (Linux OS + Java 8 runtime)
+# <Build stage>
+
+# Prepare the base container image for building the jar file from the source (Linux OS + Maven 3.6.3)
+FROM maven:3.6.3-jdk-8 AS build
+
+# Specify the directory to hold the source in the container, and cd to there
+WORKDIR /opt/source/phone-book
+
+# Copy local source to source folder in container
+COPY src src
+
+# Copy pom.xml to 
+COPY pom.xml .
+
+# Compile the jar file on the container
+RUN mvn -f pom.xml clean package
+
+# Save the path to the compiled jar file
+#ARG JAR_FILE=/opt/source/phone-book/target/phoneBook-1.0.0-SNAPSHOT.jar
+
+
+# <Package stage>
+
+# Prepare the base container image for running the application (Linux OS + Java 8 runtime)
 FROM openjdk:8-jdk-alpine
 
-# Add built jar location on local machine as an argument
-ARG JAR_FILE=target/phoneBook-1.0.0-SNAPSHOT.jar
-
-# Specify the location to store and run the application on the container, and cd to there
+# Specify the directory to hold the jar in the container, and cd to there
 WORKDIR /opt/app
 
-# Copy the built jar from local machine to container
-COPY ${JAR_FILE} app.jar
+COPY --from=build /opt/source/phone-book/target/phoneBook-1.0.0-SNAPSHOT.jar app.jar
 
-# Run application on container
+# Run application in container
 ENTRYPOINT ["java","-jar","app.jar"]
