@@ -39,12 +39,18 @@ public class phoneBookConfig {
 	@Value("${sampleEntryCommon.number}")
 	private String sampleEntryCommonNumber;
 
+	@Value("${phoneBookA.name}")
+	private String phoneBookAName;
+
+	@Value("${phoneBookB.name}")
+	private String phoneBookBName;
+
 	@Bean("phoneBookA")
 	public PhoneBook initPhoneBookA() {
 		Map<String, String> entry = new TreeMap<>();
 		entry.put(sampleEntryCommonName, sampleEntryCommonNumber);
 		entry.put(sampleEntryAName, sampleEntryANumber);
-		return new PhoneBook(entry);
+		return new PhoneBook(phoneBookAName, entry);
 	}
 
 	@Bean("phoneBookB")
@@ -52,6 +58,6 @@ public class phoneBookConfig {
 		Map<String, String> entry = new TreeMap<>();
 		entry.put(sampleEntryCommonName, sampleEntryCommonNumber);
 		entry.put(sampleEntryBName, sampleEntryBNumber);
-		return new PhoneBook(entry);
+		return new PhoneBook(phoneBookBName, entry);
 	}
 }

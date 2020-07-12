@@ -13,3 +13,19 @@ sampleEntryB:
 sampleEntryCommon:
    name: "Common cust"
    number: "2222222222"
+   
+phoneBookA:
+  name: "phoneBookA"
+  
+phoneBookB:
+  name: "phoneBookB"
+
+phoneBook:
+ name:
+   base: "phoneBook"
+
+cust:
+  name:
+    limit: 70
+  num:
+    limit: 30

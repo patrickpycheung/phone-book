@@ -13,11 +13,18 @@ import lombok.Setter;
  *
  */
 public class PhoneBook {
+
+	@Getter
+	@Setter
+	private String phoneBookName;
+
 	@Getter
 	@Setter
 	private Map<String, String> entry;
 
-	public PhoneBook(Map<String, String> entry) {
+	public PhoneBook(String phoneBookName, Map<String, String> entry) {
+		this.phoneBookName = phoneBookName;
+
 		this.entry = new TreeMap<>();
 		this.entry.putAll(entry);
 	}
