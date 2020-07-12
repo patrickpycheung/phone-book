@@ -15,9 +15,6 @@ COPY pom.xml .
 # Compile the jar file on the container
 RUN mvn -f pom.xml clean package
 
-# Save the path to the compiled jar file
-#ARG JAR_FILE=/opt/source/phone-book/target/phoneBook-1.0.0-SNAPSHOT.jar
-
 
 # <Package stage>
 
@@ -27,6 +24,7 @@ FROM openjdk:8-jdk-alpine
 # Specify the directory to hold the jar in the container, and cd to there
 WORKDIR /opt/app
 
+#Copy the built jar to the application folder on the container
 COPY --from=build /opt/source/phone-book/target/phoneBook-1.0.0-SNAPSHOT.jar app.jar
 
 # Run application in container
