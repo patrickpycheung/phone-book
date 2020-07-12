@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.somecompany</groupId>
 	<artifactId>phoneBook</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>phoneBook</name>
 	<description>Application for managing 2 phone books</description>
 

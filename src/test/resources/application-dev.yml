@@ -1,0 +1,15 @@
+identifier: "dev"
+
+logging.level.root: info
+
+sampleEntryA:
+  name: "John Doe"
+  number: "0123456789"
+  
+sampleEntryB:
+   name: "Jane Doe"
+   number: "9876543210"
+   
+sampleEntryCommon:
+   name: "Common cust"
+   number: "3333333333"
