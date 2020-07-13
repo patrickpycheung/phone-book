@@ -41,11 +41,17 @@ public class PhoneBookApplication implements CommandLineRunner {
 	@Value("${phoneBook.name.base}")
 	private String phoneBookNameBase;
 
-	@Value("${cust.name.limit}")
-	private String custNameLimit;
+	@Value("${operation.regex}")
+	private String operationRegex;
 
-	@Value("${cust.num.limit}")
-	private String custNumLimit;
+	@Value("${phoneBook.name.regex}")
+	private String phoneBookNameRegex;
+
+	@Value("${cust.name.regex}")
+	private String custNameRegex;
+
+	@Value("${cust.num.regex}")
+	private String custNumRegex;
 
 	private String inputPhoneBookName;
 
@@ -65,7 +71,7 @@ public class PhoneBookApplication implements CommandLineRunner {
 		log.info("Initializing phone book application...");
 
 		System.out.println("");
-		System.out.println("Welcome to phone book application!");
+		System.out.println("Welcome to the phone book application!");
 
 		// Display latest entries of all phone books
 		doReadAllEntriesFromAllPhoneBooks();
@@ -75,15 +81,16 @@ public class PhoneBookApplication implements CommandLineRunner {
 		while (!isQuit) {
 			System.out.println("Please select your operation:");
 			System.out.println("- Create a new contact or update an existing contact. (C)");
-			System.out.println("- Retrieve all contacts in an address book. (R)");
-			System.out.println("- Retrieve unique set of all contacts across all address books (U)");
+			System.out.println("- Read all contacts in a phone book. (R)");
+			System.out.println("- Retrieve a unique set of all contacts across all phone books. (U)");
+			System.out.println("- Delete an existing contact entry from an existing phone book. (D)");
 			System.out.println("- Quit application. (Q)");
 			String inputOperation = scanner.nextLine().trim();
 			log.info("inputOperation: " + inputOperation);
 
 			// Validate the user input
 
-			if (!inputOperation.matches("^[a-zA-Z]$")) {
+			if (!inputOperation.matches(operationRegex)) {
 				System.out.println("You may have provided an invalid input, please try again.");
 				continue;
 			}
@@ -104,6 +111,10 @@ public class PhoneBookApplication implements CommandLineRunner {
 			case "U":
 				// Read unique phone book entries from all phone books
 				doReadUniqueEntriesFromAllPhoneBooks();
+				break;
+			case "D":
+				// Delete an entry from a single phone book
+				doDeleteEntryFromSinglePhoneBook();
 				break;
 			case "Q":
 				// Quit application
@@ -130,7 +141,7 @@ public class PhoneBookApplication implements CommandLineRunner {
 		inputPhoneBookName = scanner.nextLine().trim();
 		log.info("inputPhoneBookName: " + inputPhoneBookName);
 
-		System.out.println("Please enter the customer name:");
+		System.out.println("Please enter the customer name in exact letters. Names are case-sensitive:");
 		inputCustName = scanner.nextLine().trim();
 		log.info("inputCustName: " + inputCustName);
 
@@ -138,44 +149,16 @@ public class PhoneBookApplication implements CommandLineRunner {
 		inputCustNum = scanner.nextLine().trim();
 		log.info("inputCustNum: " + inputCustNum);
 
-		boolean isErrorInput = false;
-
 		// Validate the user input
-		if (!inputPhoneBookName.matches("^[aAbB]$")) {
-			System.out.println("");
-			System.out.println("Invalid phoneBook selection!");
-			System.out.println(phoneBookA.getPhoneBookName() + " (A)" + " | " + phoneBookB.getPhoneBookName() + " (B)");
-			System.out.println("");
-
-			isErrorInput = true;
+		if (!isValidInputPhoneBookName()) {
+			return;
 		}
 
-		int custNameLimitInt = Integer.valueOf(custNameLimit);
-
-		if (!inputCustName.matches("^[a-zA-Z0-9 ]{1," + custNameLimitInt + "}$")) {
-			System.out.println("");
-			System.out.println("Invalid customer name!");
-			System.out.println(
-					"Customer names should be composed of alphabets (case sensitive) and digits only, with maximum length of 70 characters.");
-			System.out.println("");
-
-			isErrorInput = true;
+		if (!isValidInputCustName()) {
+			return;
 		}
 
-		int custNumLimitInt = Integer.valueOf(custNumLimit);
-
-		if (!inputCustNum.matches("^[0-9]{1," + custNumLimitInt + "}$")) {
-			System.out.println("");
-			System.out.println("Invalid customer phone number!");
-			System.out.println(
-					"Customer phone numbers should be composed of digits only, with maximum length of 30 characters.");
-			System.out.println("");
-
-			isErrorInput = true;
-		}
-
-		if (isErrorInput) {
-			// Go back to main menu
+		if (!isValidInputCustNum()) {
 			return;
 		}
 
@@ -183,6 +166,7 @@ public class PhoneBookApplication implements CommandLineRunner {
 		log.info("editedInputPhoneBookName: " + editedInputPhoneBookName);
 		boolean isExistingPrimaryPhoneBookEntry = phoneBookService.createOrUpdateEntry(editedInputPhoneBookName,
 				inputCustName, inputCustNum);
+
 		if (isExistingPrimaryPhoneBookEntry) {
 			// Update operation was performed
 			System.out.println("Existing customer entry is found in " + editedInputPhoneBookName
@@ -221,18 +205,13 @@ public class PhoneBookApplication implements CommandLineRunner {
 	 * Perform the read all entries from single phone book operation.
 	 */
 	private void doReadAllEntriesFromSinglePhoneBook() {
-
 		System.out.println("Please enter the phoneBook that you would like to retrieve:");
 		System.out.println(phoneBookA.getPhoneBookName() + " (A)" + "|" + phoneBookB.getPhoneBookName() + " (B)");
 		inputPhoneBookName = scanner.nextLine().trim();
+		log.info("inputPhoneBookName: " + inputPhoneBookName);
 
 		// Validate the user input
-		if (!inputPhoneBookName.matches("^[aAbB]$")) {
-			System.out.println("");
-			System.out.println("Invalid phoneBook selection!");
-			System.out.println(phoneBookA.getPhoneBookName() + " (A)" + "|" + phoneBookB.getPhoneBookName() + " (B)");
-			System.out.println("");
-
+		if (!isValidInputPhoneBookName()) {
 			return;
 		}
 
@@ -269,5 +248,102 @@ public class PhoneBookApplication implements CommandLineRunner {
 
 		phoneBook.getEntry().forEach((name, num) -> System.out.println(name + " | " + num));
 		System.out.println("");
+	}
+
+	/**
+	 * Perform the Delete an entry from single phone book operation.
+	 */
+	public void doDeleteEntryFromSinglePhoneBook() {
+		System.out.println("Please enter the phoneBook from which you would like to delete the customer entry:");
+		System.out.println(phoneBookA.getPhoneBookName() + " (A)" + "|" + phoneBookB.getPhoneBookName() + " (B)");
+		inputPhoneBookName = scanner.nextLine().trim();
+		log.info("inputPhoneBookName: " + inputPhoneBookName);
+
+		System.out.println("Please enter the customer name in exact letters. Names are case-sensitive:");
+		inputCustName = scanner.nextLine().trim();
+		log.info("inputCustName: " + inputCustName);
+
+		// Validate the user input
+		if (!isValidInputPhoneBookName()) {
+			return;
+		}
+
+		if (!isValidInputCustName()) {
+			return;
+		}
+
+		String editedInputPhoneBookName = phoneBookNameBase.concat(inputPhoneBookName.toUpperCase());
+		log.info("editedInputPhoneBookName: " + editedInputPhoneBookName);
+
+		boolean isExistingPhoneBookEntry = phoneBookService.deleteEntryFromSinglePhoneBook(editedInputPhoneBookName,
+				inputCustName);
+
+		if (isExistingPhoneBookEntry) {
+			// Existing entry found and deleted
+			System.out.println("Existing entry for \"" + inputCustName + "\" deleted.");
+
+			// Display latest entries of all phone books
+			doReadAllEntriesFromAllPhoneBooks();
+		} else {
+			// No existing entry found
+			System.out.println("No existing entry for \"" + inputCustName + "\" found, please check and confirm.");
+			System.out.println("");
+		}
+	}
+
+	/**
+	 * Validate the user input for phone book name.
+	 * 
+	 * @return
+	 */
+	private boolean isValidInputPhoneBookName() {
+		if (!inputPhoneBookName.matches(phoneBookNameRegex)) {
+			System.out.println("");
+			System.out.println("Invalid phoneBook selection!");
+			System.out.println(phoneBookA.getPhoneBookName() + " (A)" + " | " + phoneBookB.getPhoneBookName() + " (B)");
+			System.out.println("");
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Validate the user input for customer name.
+	 * 
+	 * @return
+	 */
+	private boolean isValidInputCustName() {
+		if (!inputCustName.matches(custNameRegex)) {
+			System.out.println("");
+			System.out.println("Invalid customer name!");
+			System.out.println(
+					"Customer names should be composed of alphabets (case sensitive) and digits only, with maximum length of 70 characters.");
+			System.out.println("");
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Validate the user input for customer phone number.
+	 * 
+	 * @return
+	 */
+	private boolean isValidInputCustNum() {
+		if (!inputCustNum.matches(custNumRegex)) {
+			System.out.println("");
+			System.out.println("Invalid customer phone number!");
+			System.out.println(
+					"Customer phone numbers should be composed of digits only, with maximum length of 30 characters.");
+			System.out.println("");
+
+			return false;
+		}
+
+		return true;
 	}
 }

@@ -20,12 +20,22 @@ phoneBookA:
 phoneBookB:
   name: "phoneBookB"
 
+uniquePhoneBook:
+  name: "uniquePhoneBook"
+
+operation:
+  regex: "^[cCrRuUdDqQ]$"
+
 phoneBook:
  name:
    base: "phoneBook"
+   regex: "^[aAbB]$"
 
 cust:
   name:
-    limit: 70
+    limit: "70"
+    regex: "^[a-zA-Z0-9 ]{1,70}$"
   num:
-    limit: 30
+    limit: "30"
+    regex: "^[0-9]{1,30}$"
+    

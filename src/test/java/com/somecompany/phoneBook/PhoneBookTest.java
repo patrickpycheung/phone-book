@@ -186,4 +186,47 @@ public class PhoneBookTest {
 		assertThat(phoneBook.getEntry().containsKey(anotherRandomCustName));
 		assertThat(phoneBook.getEntry().get(anotherRandomCustName).equals(anotherRandomCustNum));
 	}
+
+	/**
+	 * Test deleting an entry from a single phone book, where the phone book contains the entry.
+	 */
+	@Test
+	public void shouldBeAbleToDeleteEntryFromSinglePhoneBook() {
+		phoneBookA.getEntry().clear();
+		phoneBookB.getEntry().clear();
+
+		String randomCustName = phoneBookTestUtil.getRandomCustName();
+		String randomCustNum = phoneBookTestUtil.getRandomCustNum();
+
+		phoneBookA.getEntry().put(randomCustName, randomCustNum);
+		phoneBookB.getEntry().put(randomCustName, randomCustNum);
+
+		phoneBookService.deleteEntryFromSinglePhoneBook(phoneBookAName, randomCustName);
+
+		// Should have deleted the entry in the specified phone book
+		assertThat(phoneBookA.getEntry().get(randomCustName) == null);
+		// Should have no change to the other phone book
+		assertThat(phoneBookB.getEntry().get(randomCustName).equals(randomCustNum));
+	}
+
+	/**
+	 * Test deleting an entry from a single phone book, where the phone book does no contain the entry.
+	 */
+	@Test
+	public void shouldBeAbleToHandleNoEntryInPhoneWhenAttemptToDelete() {
+		phoneBookA.getEntry().clear();
+		phoneBookB.getEntry().clear();
+
+		String randomCustName = phoneBookTestUtil.getRandomCustName();
+		String randomCustNum = phoneBookTestUtil.getRandomCustNum();
+
+		phoneBookB.getEntry().put(randomCustName, randomCustNum);
+
+		phoneBookService.deleteEntryFromSinglePhoneBook(phoneBookAName, randomCustName);
+
+		// No error if it can reach this step
+		assertThat(phoneBookA.getEntry().get(randomCustName) == null);
+		// Should have no change to the other phone book
+		assertThat(phoneBookB.getEntry().get(randomCustName).equals(randomCustNum));
+	}
 }
