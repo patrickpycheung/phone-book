@@ -222,7 +222,7 @@ public class PhoneBookApplication implements CommandLineRunner {
 
 		System.out.println("============================================================");
 
-		PhoneBook phoneBook = phoneBookService.readAllEntriesFromSinglePhoneBook(inputPhoneBookName);
+		PhoneBook phoneBook = phoneBookService.readAllEntriesFromSinglePhoneBook(editedInputPhoneBookName);
 
 		System.out.println("<" + phoneBook.getPhoneBookName() + ">");
 		System.out.println("Customer name | Customer phone number");
