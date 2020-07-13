@@ -157,4 +157,33 @@ public class PhoneBookTest {
 
 		assertThat(phoneBook == phoneBookA);
 	}
+
+	/**
+	 * Test reading unique entries from all phone books.<br/>
+	 */
+	@Test
+	public void shouldBeAbleToReadUniqueEntriesInAllPhoneBooks() {
+		phoneBookA.getEntry().clear();
+		phoneBookB.getEntry().clear();
+
+		String randomCustName = phoneBookTestUtil.getRandomCustName();
+		String randomCustNum = phoneBookTestUtil.getRandomCustNum();
+
+		String anotherRandomCustName = phoneBookTestUtil.getRandomCustName();
+		String anotherRandomCustNum = phoneBookTestUtil.getRandomCustNum();
+
+		phoneBookA.getEntry().put(randomCustName, randomCustNum);
+		phoneBookB.getEntry().put(randomCustName, randomCustNum);
+
+		phoneBookA.getEntry().put(anotherRandomCustName, anotherRandomCustNum);
+		phoneBookB.getEntry().put(anotherRandomCustName, anotherRandomCustNum);
+
+		PhoneBook phoneBook = phoneBookService.readUniqueEntriesFromAllPhoneBooks();
+
+		assertThat(phoneBook.getEntry().containsKey(randomCustName));
+		assertThat(phoneBook.getEntry().get(randomCustName).equals(randomCustNum));
+
+		assertThat(phoneBook.getEntry().containsKey(anotherRandomCustName));
+		assertThat(phoneBook.getEntry().get(anotherRandomCustName).equals(anotherRandomCustNum));
+	}
 }

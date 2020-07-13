@@ -53,6 +53,8 @@ public class PhoneBookApplication implements CommandLineRunner {
 
 	private String inputCustNum;
 
+	private Scanner scanner = new Scanner(System.in);
+
 	public static void main(String[] args) {
 		SpringApplication.run(PhoneBookApplication.class, args).close();
 		log.info("End of application.");
@@ -71,11 +73,11 @@ public class PhoneBookApplication implements CommandLineRunner {
 		boolean isQuit = false;
 
 		while (!isQuit) {
-			Scanner scanner = new Scanner(System.in);
 			System.out.println("Please select your operation:");
-			System.out.println("Create a new record or update an existing contact. (C)");
-			System.out.println("Retrieve all contacts in an address book. (R)");
-			System.out.println("Quit application. (Q)");
+			System.out.println("- Create a new contact or update an existing contact. (C)");
+			System.out.println("- Retrieve all contacts in an address book. (R)");
+			System.out.println("- Retrieve unique set of all contacts across all address books (U)");
+			System.out.println("- Quit application. (Q)");
 			String inputOperation = scanner.nextLine().trim();
 			log.info("inputOperation: " + inputOperation);
 
@@ -99,6 +101,10 @@ public class PhoneBookApplication implements CommandLineRunner {
 				// Read all entries from a single phone book
 				doReadAllEntriesFromSinglePhoneBook();
 				break;
+			case "U":
+				// Read unique phone book entries from all phone books
+				doReadUniqueEntriesFromAllPhoneBooks();
+				break;
 			case "Q":
 				// Quit application
 				isQuit = true;
@@ -109,6 +115,8 @@ public class PhoneBookApplication implements CommandLineRunner {
 			}
 		}
 
+		scanner.close();
+
 		System.out.println("Goodbye!");
 		log.info("Ending application...");
 	}
@@ -117,8 +125,6 @@ public class PhoneBookApplication implements CommandLineRunner {
 	 * Perform the create or update entry operation.
 	 */
 	private void doCreateOrUpdateEntry() {
-		Scanner scanner = new Scanner(System.in);
-
 		System.out.println("Please enter the phoneBook that you would like to update:");
 		System.out.println(phoneBookA.getPhoneBookName() + " (A)" + " | " + phoneBookB.getPhoneBookName() + " (B)");
 		inputPhoneBookName = scanner.nextLine().trim();
@@ -215,7 +221,6 @@ public class PhoneBookApplication implements CommandLineRunner {
 	 * Perform the read all entries from single phone book operation.
 	 */
 	private void doReadAllEntriesFromSinglePhoneBook() {
-		Scanner scanner = new Scanner(System.in);
 
 		System.out.println("Please enter the phoneBook that you would like to retrieve:");
 		System.out.println(phoneBookA.getPhoneBookName() + " (A)" + "|" + phoneBookB.getPhoneBookName() + " (B)");
@@ -246,6 +251,23 @@ public class PhoneBookApplication implements CommandLineRunner {
 
 		phoneBook.getEntry().forEach((name, num) -> System.out.println(name + " | " + num));
 		System.out.println("");
+	}
 
+	/**
+	 * Perform the read unique entries from all phone books operation.
+	 */
+	public void doReadUniqueEntriesFromAllPhoneBooks() {
+		System.out.println("Listing unique phone book entries across all phone books...");
+		System.out.println("");
+
+		System.out.println("============================================================");
+		System.out.println("<Unique phone book entries>");
+		System.out.println("Customer name | Customer phone number");
+		System.out.println("************************************************************");
+
+		PhoneBook phoneBook = phoneBookService.readUniqueEntriesFromAllPhoneBooks();
+
+		phoneBook.getEntry().forEach((name, num) -> System.out.println(name + " | " + num));
+		System.out.println("");
 	}
 }

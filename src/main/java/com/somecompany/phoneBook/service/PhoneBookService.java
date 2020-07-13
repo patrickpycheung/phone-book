@@ -2,6 +2,8 @@ package com.somecompany.phoneBook.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -132,5 +134,19 @@ public class PhoneBookService {
 		// Fetching phoneBookB
 
 		return phoneBookB;
+	}
+
+	/**
+	 * Read unique phone book entries from all phone books.<br/>
+	 * 
+	 * @return
+	 */
+	public PhoneBook readUniqueEntriesFromAllPhoneBooks() {
+		Map<String, String> combinedEntries = new TreeMap<>();
+		combinedEntries.putAll(phoneBookA.getEntry());
+		combinedEntries.putAll(phoneBookB.getEntry());
+		PhoneBook phoneBook = new PhoneBook("uniquePhoneBook", combinedEntries);
+
+		return phoneBook;
 	}
 }
