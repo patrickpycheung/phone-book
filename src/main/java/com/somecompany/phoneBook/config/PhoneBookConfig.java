@@ -17,7 +17,7 @@ import com.somecompany.phoneBook.model.PhoneBook;
  *
  */
 @Configuration
-public class phoneBookConfig {
+public class PhoneBookConfig {
 
 	/* Sample entries for the phone books */
 
