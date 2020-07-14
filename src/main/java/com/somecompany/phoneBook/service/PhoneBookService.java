@@ -140,6 +140,8 @@ public class PhoneBookService {
 
 			return phoneBookB;
 		} else {
+			// The input phone book name is invalid
+
 			throw new InvalidPhoneBookNameException();
 		}
 
