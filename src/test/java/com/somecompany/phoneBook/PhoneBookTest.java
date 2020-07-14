@@ -14,6 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.somecompany.phoneBook.exception.InvalidPhoneBookNameException;
 import com.somecompany.phoneBook.model.PhoneBook;
 import com.somecompany.phoneBook.service.PhoneBookService;
 
@@ -143,9 +144,11 @@ public class PhoneBookTest {
 
 	/**
 	 * Test reading all entries in a single phone book.<br/>
+	 * 
+	 * @throws InvalidPhoneBookNameException
 	 */
 	@Test
-	public void shouldBeAbleToReadAllEntriesInSinglePhoneBook() {
+	public void shouldBeAbleToReadAllEntriesInSinglePhoneBook() throws InvalidPhoneBookNameException {
 		phoneBookA.getEntry().clear();
 
 		String randomCustName = phoneBookTestUtil.getRandomCustName();

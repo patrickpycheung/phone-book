@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.somecompany.phoneBook.exception.InvalidPhoneBookNameException;
 import com.somecompany.phoneBook.model.PhoneBook;
 
 import lombok.extern.slf4j.Slf4j;
@@ -127,17 +128,21 @@ public class PhoneBookService {
 	 * 
 	 * 
 	 * @return PhoneBook
+	 * @throws InvalidPhoneBookNameException
 	 */
-	public PhoneBook readAllEntriesFromSinglePhoneBook(String phoneBookName) {
+	public PhoneBook readAllEntriesFromSinglePhoneBook(String phoneBookName) throws InvalidPhoneBookNameException {
 		if (phoneBookName.equals(phoneBookA.getPhoneBookName())) {
 			// Fetching phoneBookA
 
 			return phoneBookA;
+		} else if (phoneBookName.equals(phoneBookB.getPhoneBookName())) {
+			// Fetching phoneBookB
+
+			return phoneBookB;
+		} else {
+			throw new InvalidPhoneBookNameException();
 		}
 
-		// Fetching phoneBookB
-
-		return phoneBookB;
 	}
 
 	/**

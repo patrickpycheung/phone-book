@@ -10,6 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.somecompany.phoneBook.exception.InvalidPhoneBookNameException;
 import com.somecompany.phoneBook.model.PhoneBook;
 import com.somecompany.phoneBook.service.PhoneBookService;
 
@@ -222,7 +223,17 @@ public class PhoneBookApplication implements CommandLineRunner {
 
 		System.out.println("============================================================");
 
-		PhoneBook phoneBook = phoneBookService.readAllEntriesFromSinglePhoneBook(editedInputPhoneBookName);
+		PhoneBook phoneBook;
+
+		try {
+			phoneBook = phoneBookService.readAllEntriesFromSinglePhoneBook(editedInputPhoneBookName);
+		} catch (InvalidPhoneBookNameException e) {
+			System.out.println("Invalid phoneBook selection!");
+			System.out.println(phoneBookA.getPhoneBookName() + " (A)" + " | " + phoneBookB.getPhoneBookName() + " (B)");
+			System.out.println("");
+
+			return;
+		}
 
 		System.out.println("<" + phoneBook.getPhoneBookName() + ">");
 		System.out.println("Customer name | Customer phone number");
