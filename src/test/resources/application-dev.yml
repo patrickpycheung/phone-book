@@ -1,6 +1,6 @@
 identifier: "dev"
 
-logging.level.root: info
+logging.level.root: "info"
 
 sampleEntryA:
   name: "John Doe"

@@ -130,6 +130,7 @@ public class PhoneBookApplication implements CommandLineRunner {
 		scanner.close();
 
 		System.out.println("Goodbye!");
+		System.out.println("");
 		log.info("Ending application...");
 	}
 

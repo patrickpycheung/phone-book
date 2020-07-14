@@ -1,6 +1,6 @@
 identifier: "prod"
 
-logging.level.root: error
+logging.level.root: "error"
 
 sampleEntryA:
   name: "John Doe"
