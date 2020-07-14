@@ -173,8 +173,10 @@ public class PhoneBookService {
 	 * @param phoneBookName
 	 * @param custName
 	 * @return isExistingPhoneBookEntry
+	 * @throws InvalidPhoneBookNameException
 	 */
-	public boolean deleteEntryFromSinglePhoneBook(String phoneBookName, String custName) {
+	public boolean deleteEntryFromSinglePhoneBook(String phoneBookName, String custName)
+			throws InvalidPhoneBookNameException {
 		boolean isExistingPhoneBookEntry = true;
 
 		if (phoneBookName.equals(phoneBookA.getPhoneBookName())) {
@@ -184,12 +186,16 @@ public class PhoneBookService {
 				isExistingPhoneBookEntry = false;
 			}
 			;
-		} else {
+		} else if (phoneBookName.equals(phoneBookB.getPhoneBookName())) {
 			// Removing entry from phoneBookB
 
 			if (phoneBookB.getEntry().remove(custName) == null) {
 				isExistingPhoneBookEntry = false;
 			}
+		} else {
+			// The input phone book name is invalid
+
+			throw new InvalidPhoneBookNameException();
 		}
 
 		return isExistingPhoneBookEntry;

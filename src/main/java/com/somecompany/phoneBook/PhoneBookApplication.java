@@ -297,8 +297,18 @@ public class PhoneBookApplication implements CommandLineRunner {
 		String editedInputPhoneBookName = phoneBookNameBase.concat(inputPhoneBookName.toUpperCase());
 		log.info("editedInputPhoneBookName: " + editedInputPhoneBookName);
 
-		boolean isExistingPhoneBookEntry = phoneBookService.deleteEntryFromSinglePhoneBook(editedInputPhoneBookName,
-				inputCustName);
+		boolean isExistingPhoneBookEntry = false;
+
+		try {
+			isExistingPhoneBookEntry = phoneBookService.deleteEntryFromSinglePhoneBook(editedInputPhoneBookName,
+					inputCustName);
+		} catch (InvalidPhoneBookNameException invalidPhoneBookNameException) {
+			System.out.println("Invalid phoneBook selection!");
+			System.out.println(phoneBookA.getPhoneBookName() + " (A)" + " | " + phoneBookB.getPhoneBookName() + " (B)");
+			System.out.println("");
+
+			return;
+		}
 
 		if (isExistingPhoneBookEntry) {
 			// Existing entry found and deleted

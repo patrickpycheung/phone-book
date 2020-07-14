@@ -202,9 +202,11 @@ public class PhoneBookTest {
 
 	/**
 	 * Test deleting an entry from a single phone book, where the phone book contains the entry.
+	 * 
+	 * @throws InvalidPhoneBookNameException
 	 */
 	@Test
-	public void shouldBeAbleToDeleteEntryFromSinglePhoneBook() {
+	public void shouldBeAbleToDeleteEntryFromSinglePhoneBook() throws InvalidPhoneBookNameException {
 		phoneBookA.getEntry().clear();
 		phoneBookB.getEntry().clear();
 
@@ -224,9 +226,11 @@ public class PhoneBookTest {
 
 	/**
 	 * Test deleting an entry from a single phone book, where the phone book does no contain the entry.
+	 * 
+	 * @throws InvalidPhoneBookNameException
 	 */
 	@Test
-	public void shouldBeAbleToHandleNoEntryInPhoneWhenAttemptToDelete() {
+	public void shouldBeAbleToHandleNoEntryInPhoneWhenAttemptToDelete() throws InvalidPhoneBookNameException {
 		phoneBookA.getEntry().clear();
 		phoneBookB.getEntry().clear();
 

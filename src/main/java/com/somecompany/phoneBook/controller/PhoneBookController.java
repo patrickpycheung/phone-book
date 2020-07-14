@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,7 +49,8 @@ public class PhoneBookController {
 		String inputCustName = createEntryReqParam.getCustName();
 		String inputCustNum = createEntryReqParam.getCustNum();
 
-		ResponseEntity<Object> responseEntity = createOrUpdateEntry(inputPhoneBookName, inputCustName, inputCustNum);
+		ResponseEntity<Object> responseEntity = doCreateOrUpdateEntry(inputPhoneBookName, inputCustName, inputCustNum);
+
 		return responseEntity;
 	}
 
@@ -94,8 +96,40 @@ public class PhoneBookController {
 			@RequestBody UpdateEntryReqParam updateEntryReqParam) {
 		String inputCustNum = updateEntryReqParam.getCustNum();
 
-		ResponseEntity<Object> responseEntity = createOrUpdateEntry(phoneBookName, custName, inputCustNum);
+		ResponseEntity<Object> responseEntity = doCreateOrUpdateEntry(phoneBookName, custName, inputCustNum);
+
 		return responseEntity;
+	}
+
+	@DeleteMapping(path = "/{phoneBookName}/{custName}")
+	@ApiOperation(value = "Delete an entry from single phone book")
+	public ResponseEntity<Object> deleteEntryFromSinglePhoneBook(@PathVariable String phoneBookName,
+			@PathVariable String custName) {
+		String editedInputPhoneBookName = phoneBookNameBase.concat(phoneBookName.toUpperCase());
+		log.info("editedInputPhoneBookName: " + editedInputPhoneBookName);
+
+		boolean isExistingPhoneBookEntry = false;
+
+		try {
+			isExistingPhoneBookEntry = phoneBookService.deleteEntryFromSinglePhoneBook(editedInputPhoneBookName,
+					custName);
+		} catch (InvalidPhoneBookNameException invalidPhoneBookNameException) {
+			// The input phone book name is invalid
+
+			return ResponseEntity.badRequest().body(invalidPhoneBookNameException.getMessage());
+		}
+
+		if (isExistingPhoneBookEntry) {
+			// Existing entry found and deleted
+
+			return new ResponseEntity<Object>("Existing entry for \"" + custName + "\" deleted.",
+					HttpStatus.NO_CONTENT);
+		}
+
+		// No existing entry found
+		return ResponseEntity.badRequest()
+				.body("No existing entry for \"" + custName + "\" found, please check and confirm.");
+
 	}
 
 	/**
@@ -106,7 +140,7 @@ public class PhoneBookController {
 	 * @param inputCustNum
 	 * @return ResponseEntity<Object>
 	 */
-	private ResponseEntity<Object> createOrUpdateEntry(String inputPhoneBookName, String inputCustName,
+	private ResponseEntity<Object> doCreateOrUpdateEntry(String inputPhoneBookName, String inputCustName,
 			String inputCustNum) {
 		String editedInputPhoneBookName = phoneBookNameBase.concat(inputPhoneBookName.toUpperCase());
 		log.info("editedInputPhoneBookName: " + editedInputPhoneBookName);
