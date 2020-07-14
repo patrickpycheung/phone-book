@@ -12,6 +12,6 @@ public class InvalidPhoneBookNameException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	public InvalidPhoneBookNameException() {
-		super("Invalid phoneBook name!");
+		super("Invalid phoneBook name! Provide \"A\" for phoneBookA, \"B\" for phoneBookB.");
 	}
 }
