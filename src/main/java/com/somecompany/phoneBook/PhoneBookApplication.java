@@ -82,6 +82,7 @@ public class PhoneBookApplication implements CommandLineRunner {
 		while (!isQuit) {
 			System.out.println("Please select your operation:");
 			System.out.println("- Create a new contact or update an existing contact. (C)");
+			System.out.println("- Read all contacts from all phone books. (A)");
 			System.out.println("- Read all contacts in a phone book. (R)");
 			System.out.println("- Retrieve a unique set of all contacts across all phone books. (U)");
 			System.out.println("- Delete an existing contact entry from an existing phone book. (D)");
@@ -104,6 +105,9 @@ public class PhoneBookApplication implements CommandLineRunner {
 			case "C":
 				// Create or update customer entry
 				doCreateOrUpdateEntry();
+				break;
+			case "A":
+				doReadAllEntriesFromAllPhoneBooks();
 				break;
 			case "R":
 				// Read all entries from a single phone book

@@ -24,7 +24,7 @@ uniquePhoneBook:
   name: "uniquePhoneBook"
 
 operation:
-  regex: "^[cCrRuUdDqQ]$"
+  regex: "^[cCaArRuUdDqQ]$"
 
 phoneBook:
  name:
