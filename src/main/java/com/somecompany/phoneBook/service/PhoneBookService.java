@@ -50,8 +50,10 @@ public class PhoneBookService {
 	 * @param name
 	 * @param number
 	 * @return isExistingPrimaryPhoneBookEntry
+	 * @throws InvalidPhoneBookNameException
 	 */
-	public boolean createOrUpdateEntry(String phoneBookName, String custName, String custNum) {
+	public boolean createOrUpdateEntry(String phoneBookName, String custName, String custNum)
+			throws InvalidPhoneBookNameException {
 		log.info("phoneBookName: " + phoneBookName);
 
 		// Indicates whether the customer entry is already existing
@@ -60,9 +62,13 @@ public class PhoneBookService {
 		if (phoneBookName.equals(phoneBookA.getPhoneBookName())) {
 			// Update phoneBookA and edit phoneBookB if necessary
 			isExistingPrimaryPhoneBookEntry = executeCreateOrUpdateEntry(phoneBookA, phoneBookB, custName, custNum);
-		} else {
+		} else if (phoneBookName.equals(phoneBookB.getPhoneBookName())) {
 			// Update phoneBookB and edit phoneBookA if necessary
 			isExistingPrimaryPhoneBookEntry = executeCreateOrUpdateEntry(phoneBookB, phoneBookA, custName, custNum);
+		} else {
+			// The input phone book name is invalid
+
+			throw new InvalidPhoneBookNameException();
 		}
 
 		return isExistingPrimaryPhoneBookEntry;

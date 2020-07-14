@@ -165,8 +165,19 @@ public class PhoneBookApplication implements CommandLineRunner {
 
 		String editedInputPhoneBookName = phoneBookNameBase.concat(inputPhoneBookName.toUpperCase());
 		log.info("editedInputPhoneBookName: " + editedInputPhoneBookName);
-		boolean isExistingPrimaryPhoneBookEntry = phoneBookService.createOrUpdateEntry(editedInputPhoneBookName,
-				inputCustName, inputCustNum);
+
+		boolean isExistingPrimaryPhoneBookEntry = false;
+
+		try {
+			isExistingPrimaryPhoneBookEntry = phoneBookService.createOrUpdateEntry(editedInputPhoneBookName,
+					inputCustName, inputCustNum);
+		} catch (InvalidPhoneBookNameException invalidPhoneBookNameException) {
+			System.out.println("Invalid phoneBook selection!");
+			System.out.println(phoneBookA.getPhoneBookName() + " (A)" + " | " + phoneBookB.getPhoneBookName() + " (B)");
+			System.out.println("");
+
+			return;
+		}
 
 		if (isExistingPrimaryPhoneBookEntry) {
 			// Update operation was performed
@@ -227,7 +238,7 @@ public class PhoneBookApplication implements CommandLineRunner {
 
 		try {
 			phoneBook = phoneBookService.readAllEntriesFromSinglePhoneBook(editedInputPhoneBookName);
-		} catch (InvalidPhoneBookNameException e) {
+		} catch (InvalidPhoneBookNameException invalidPhoneBookNameException) {
 			System.out.println("Invalid phoneBook selection!");
 			System.out.println(phoneBookA.getPhoneBookName() + " (A)" + " | " + phoneBookB.getPhoneBookName() + " (B)");
 			System.out.println("");

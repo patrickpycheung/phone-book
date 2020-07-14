@@ -46,9 +46,11 @@ public class PhoneBookTest {
 	/**
 	 * Test creating a new entry in phoneBookA.<br/>
 	 * No existing entry is found in all phone books.
+	 * 
+	 * @throws InvalidPhoneBookNameException
 	 */
 	@Test
-	public void shouldBeAbleToCreateANewEntryInPhoneBookAIfNoneExist() {
+	public void shouldBeAbleToCreateANewEntryInPhoneBookAIfNoneExist() throws InvalidPhoneBookNameException {
 		phoneBookA.getEntry().clear();
 		phoneBookB.getEntry().clear();
 
@@ -64,9 +66,11 @@ public class PhoneBookTest {
 	/**
 	 * Test updating an existing entry in phoneBookA.<br/>
 	 * The entry does not exist in the other phone book yet.
+	 * 
+	 * @throws InvalidPhoneBookNameException
 	 */
 	@Test
-	public void shouldBeAbleToUpdateEntryInPhoneBookAIfAlreadyExist() {
+	public void shouldBeAbleToUpdateEntryInPhoneBookAIfAlreadyExist() throws InvalidPhoneBookNameException {
 		phoneBookA.getEntry().clear();
 		phoneBookB.getEntry().clear();
 
@@ -84,9 +88,12 @@ public class PhoneBookTest {
 	/**
 	 * Test updating an existing entry in phoneBookA.<br/>
 	 * The entry exists in the other phone book as well.
+	 * 
+	 * @throws InvalidPhoneBookNameException
 	 */
 	@Test
-	public void shouldBeAbleToUpdateEntryInPhoneBookAIfAlreadyExistAndUpdatePhoneBookBIfAlreadyExist() {
+	public void shouldBeAbleToUpdateEntryInPhoneBookAIfAlreadyExistAndUpdatePhoneBookBIfAlreadyExist()
+			throws InvalidPhoneBookNameException {
 		phoneBookA.getEntry().clear();
 		phoneBookB.getEntry().clear();
 
@@ -105,9 +112,12 @@ public class PhoneBookTest {
 	/**
 	 * Test creating a new entry in phoneBookA.<br/>
 	 * The entry exists in the other phone book as well.
+	 * 
+	 * @throws InvalidPhoneBookNameException
 	 */
 	@Test
-	public void shouldBeAbleToCreateANewEntryInPhoneBookAIfNoneExistAndUpdatePhoneBookBIfAlreadyExist() {
+	public void shouldBeAbleToCreateANewEntryInPhoneBookAIfNoneExistAndUpdatePhoneBookBIfAlreadyExist()
+			throws InvalidPhoneBookNameException {
 		phoneBookA.getEntry().clear();
 		phoneBookB.getEntry().clear();
 
