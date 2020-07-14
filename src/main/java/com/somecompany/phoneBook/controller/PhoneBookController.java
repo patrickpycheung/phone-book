@@ -1,5 +1,7 @@
 package com.somecompany.phoneBook.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +28,14 @@ public class PhoneBookController {
 
 	@Autowired
 	private PhoneBookService phoneBookService;
+
+	@GetMapping(path = "")
+	@ApiOperation(value = "Read all entries from all phone books")
+	public ResponseEntity<Object> readAllEntriesFromAllPhoneBooks() {
+		List<PhoneBook> phoneBookList = phoneBookService.readAllEntriesFromAllPhoneBooks();
+
+		return ResponseEntity.ok(phoneBookList);
+	}
 
 	@GetMapping(path = "/{phoneBookName}")
 	@ApiOperation(value = "Read all entries from single phone book")
