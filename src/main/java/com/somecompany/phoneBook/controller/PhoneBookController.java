@@ -47,6 +47,15 @@ public class PhoneBookController {
 		} catch (InvalidPhoneBookNameException invalidPhoneBookNameException) {
 			return ResponseEntity.badRequest().body(invalidPhoneBookNameException.getMessage());
 		}
+
 		return ResponseEntity.ok(phoneBook);
+	}
+
+	@GetMapping(path = "/unique")
+	@ApiOperation(value = "Read unique entries from all phone books")
+	public ResponseEntity<Object> readUniqueEntriesFromAllPhoneBooks() {
+		PhoneBook phonebook = phoneBookService.readUniqueEntriesFromAllPhoneBooks();
+
+		return ResponseEntity.ok(phonebook);
 	}
 }
