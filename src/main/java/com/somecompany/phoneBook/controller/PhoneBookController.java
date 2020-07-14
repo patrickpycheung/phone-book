@@ -64,9 +64,9 @@ public class PhoneBookController {
 
 	@GetMapping(path = "/{phoneBookName}")
 	@ApiOperation(value = "Read all entries from single phone book")
-	public ResponseEntity<Object> readAllEntriesFromSinglePhoneBook(@PathVariable String inputPhoneBookName) {
+	public ResponseEntity<Object> readAllEntriesFromSinglePhoneBook(@PathVariable String phoneBookName) {
 
-		String editedInputPhoneBookName = phoneBookNameBase.concat(inputPhoneBookName.toUpperCase());
+		String editedInputPhoneBookName = phoneBookNameBase.concat(phoneBookName.toUpperCase());
 		log.info("editedInputPhoneBookName: " + editedInputPhoneBookName);
 
 		PhoneBook phoneBook;
