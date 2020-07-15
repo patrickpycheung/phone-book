@@ -1,0 +1,41 @@
+identifier: "default"
+
+logging.level.root: "error"
+
+sampleEntryA:
+  name: "John Doe"
+  number: "0123456789"
+  
+sampleEntryB:
+   name: "Jane Doe"
+   number: "9876543210"
+   
+sampleEntryCommon:
+   name: "Common cust"
+   number: "1111111111"
+
+phoneBookA:
+  name: "phoneBookA"
+  
+phoneBookB:
+  name: "phoneBookB"
+
+uniquePhoneBook:
+  name: "uniquePhoneBook"
+
+operation:
+  regex: "^[cCaArRuUdDqQ]$"
+
+phoneBook:
+ name:
+   base: "phoneBook"
+   regex: "^[aAbB]$"
+
+cust:
+  name:
+    limit: "70"
+    regex: "^[a-zA-Z0-9 ]{1,70}$"
+  num:
+    limit: "30"
+    regex: "^[0-9]{1,30}$"
+    
