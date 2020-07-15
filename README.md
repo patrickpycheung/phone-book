@@ -46,7 +46,7 @@ The following assumptions are being made for the application:
   ### **Getting the source and compile the application**
   Clone the "prod" branch of the phone-book repository from GitHub
   
-  Git repository location:
+  Git repository location:<br/>
   https://github.com/patrickpycheung/phone-book/tree/prod
 
   Command: 
@@ -57,7 +57,7 @@ The following assumptions are being made for the application:
 
     mvn clean package
 
-  The outcome would be a jar file in the target folder which can be executed as per description in [**here**](#--by-maven--).
+  The outcome would be a jar file in the target folder which can be executed as per description in [**here**](#by-maven).
 
   TO BE SUPPLEMENTED -> image of prod jar in target folder
 
@@ -65,7 +65,7 @@ The following assumptions are being made for the application:
   #### **Console application**
   ##### **By docker image (recommended)**
   
-  Dockerhub repository location:
+  Dockerhub repository location:<br/>
   https://hub.docker.com/r/patrick888/phone-book
 
   Pull the lastest "prod" docker image from dockerhub with the following command (Note: docker runtime required):
@@ -98,7 +98,7 @@ The following assumptions are being made for the application:
     
     or,
 
-  * Compile the jar with maven as described [**here**](#-getting-the-source-and-compile-the-application-), and run the jar
+  * Compile the jar with maven as described [**here**](#getting-the-source-and-compile-the-application), and run the jar
 
     Command:
     ```
@@ -122,7 +122,7 @@ The following assumptions are being made for the application:
 
   The web server will be started as soon as the application is started.
 
-  Swagger UI path (assuming you are running in local):
+  Swagger UI path (assuming you are running in local):<br/>
   http://localhost:8080/swagger-ui.html#/phone-book-controller
 
   Sample call:
