@@ -8,7 +8,7 @@
     + [**Getting the source and compile the application**](#getting-the-source-and-compile-the-application)
     + [**Running the application**](#running-the-application)
       - [**Console application**](#console-application)
-        * [**By docker image (recommended)**](#by-docker-image--recommended)
+        * [**By docker image (recommended)**](#by-docker-image-recommended)
         * [**By maven**](#by-maven)
       - [**RESTful API endpoints**](#restful-api-endpoints)
   * [**Operation manual**](#operation-manual)
