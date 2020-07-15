@@ -2,19 +2,19 @@
 
   Table of contents
 
-  * [**About the application**](#--about-the-application--)
-  * [**Assumptions**](#--assumptions--)
-  * [**Instructions**](#--instructions--)
-    + [**Getting the source and compile the application**](#-getting-the-source-and-compile-the-application-)
-    + [**Running the application**](#-running-the-application-)
-      - [**Console application**](#--console-application--)
-        * [**By docker image (recommended)**](#--by-docker-image--recommended---)
-        * [**By maven**](#--by-maven--)
-      - [RESTful API endpoints](#restful-api-endpoints)
-  * [**Operation manual**](#--operation-manual--)
-  * [**Architecture**](#--architecture--)
-  * [**Design and development approach**](#--design-and-development-approach--)
-  * [**Technology stack**](#--technology-stack--)
+  * [**About the application**](#about-the-application)
+  * [**Assumptions**](#assumptions)
+  * [**Instructions**](#instructions)
+    + [**Getting the source and compile the application**](#getting-the-source-and-compile-the-application)
+    + [**Running the application**](#running-the-application)
+      - [**Console application**](#console-application)
+        * [**By docker image (recommended)**](#by-docker-image--recommended)
+        * [**By maven**](#by-maven)
+      - [**RESTful API endpoints**](#restful-api-endpoints)
+  * [**Operation manual**](#operation-manual)
+  * [**Architecture**](#architecture)
+  * [**Design and development approach**](#design-and-development-approach)
+  * [**Technology stack**](#technology-stack)
 
 ## **About the application**
   The Phone Book Application is a console application which keeps track of customer contacts. It is written in Java and Spring Boot.
