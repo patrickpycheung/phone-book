@@ -238,7 +238,13 @@ Note the constraints on the inputs as below:
 
   e.g.
 
-    <img src="https://lkffcq.bn.files.1drv.com/y4mJ8rxHJomdCTQoFUCVZ3hHPpUU4wdPy-vQNiYnCxkuc4nKMV2r2te5U9b6veCasiXyCrCkWpmL5w_X-TK1AJBQ-V437NPlqQkh2yIjWVfzUj1Iz__j8gOBCufabV1H0p1I3AVzORRsGld-mhKuKLcfpmy5hDVIFkCfbf4HFFCv6Nutofv6qQVb1fYD3sqfXX5bLbEVzlM271PfNcWaP-xBg?width=2076&height=1096&cropmode=none" title="Log" alt="Log">
+  When running application directly in local:
+
+    <img src="https://lkffcq.bn.files.1drv.com/y4mJ8rxHJomdCTQoFUCVZ3hHPpUU4wdPy-vQNiYnCxkuc4nKMV2r2te5U9b6veCasiXyCrCkWpmL5w_X-TK1AJBQ-V437NPlqQkh2yIjWVfzUj1Iz__j8gOBCufabV1H0p1I3AVzORRsGld-mhKuKLcfpmy5hDVIFkCfbf4HFFCv6Nutofv6qQVb1fYD3sqfXX5bLbEVzlM271PfNcWaP-xBg?width=2076&height=1096&cropmode=none" title="Log_In_Local" alt="Log_In_Local">
+
+  When running application with docker:
+
+    <img src="https://ahpiqa.bn.files.1drv.com/y4mFgjUNF9yRpO7xiNbcPkJvpR9iWsy-Bc3OPMpjNZomjO9VPBOG8mgYb_ZO0M1qvOBY-IXUyjvGBvcR0wpP7WsLxWEVSX47CuWbeNTsILLg7GOboV28nf6jHnXU8-J67zD_2q4URiIHDHdR76uIjT9aY3Xq8A61PHmd7526p4jQoWsdN_t5aVMGTTB_GT62ekt1NT14o9yx8xrAEfQ_CxUfg?width=1786&height=976&cropmode=none" title="Log_In_Container" alt="Log_In_Container">
 
 ## **Architecture**
 ### Application
