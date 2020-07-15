@@ -10,9 +10,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.somecompany.phoneBook.exception.InvalidPhoneBookNameException;
 import com.somecompany.phoneBook.model.PhoneBook;
 import com.somecompany.phoneBook.service.PhoneBookService;
+import com.somecompany.phoneBook.service.PhoneBookValidationService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,6 +38,9 @@ public class PhoneBookApplication implements CommandLineRunner {
 	@Autowired
 	@Qualifier("phoneBookB")
 	private PhoneBook phoneBookB;
+
+	@Autowired
+	private PhoneBookValidationService phoneBookValidationService;
 
 	@Value("${phoneBook.name.base}")
 	private String phoneBookNameBase;
@@ -92,10 +95,7 @@ public class PhoneBookApplication implements CommandLineRunner {
 
 			// Validate the user input
 
-			if (!inputOperation.matches(operationRegex)) {
-				System.out.println("You may have provided an invalid input, please try again.");
-				log.error("Invalid operation");
-				log.error("inputOperation: " + inputOperation);
+			if (!phoneBookValidationService.isValidInputOperation(inputOperation)) {
 				continue;
 			}
 
@@ -161,15 +161,15 @@ public class PhoneBookApplication implements CommandLineRunner {
 
 		boolean isHaveInputError = false;
 
-		if (!isValidInputPhoneBookName()) {
+		if (!phoneBookValidationService.isValidInputPhoneBookName(inputPhoneBookName)) {
 			isHaveInputError = true;
 		}
 
-		if (!isValidInputCustName()) {
+		if (!phoneBookValidationService.isValidInputCustName(inputCustName)) {
 			isHaveInputError = true;
 		}
 
-		if (!isValidInputCustNum()) {
+		if (!phoneBookValidationService.isValidInputCustNum(inputCustNum)) {
 			isHaveInputError = true;
 		}
 
@@ -182,16 +182,8 @@ public class PhoneBookApplication implements CommandLineRunner {
 
 		boolean isExistingPrimaryPhoneBookEntry = false;
 
-		try {
-			isExistingPrimaryPhoneBookEntry = phoneBookService.createOrUpdateEntry(editedInputPhoneBookName,
-					inputCustName, inputCustNum);
-		} catch (InvalidPhoneBookNameException invalidPhoneBookNameException) {
-			System.out.println("Invalid phoneBook selection!");
-			System.out.println(phoneBookA.getPhoneBookName() + " (A)" + " | " + phoneBookB.getPhoneBookName() + " (B)");
-			System.out.println("");
-
-			return;
-		}
+		isExistingPrimaryPhoneBookEntry = phoneBookService.createOrUpdateEntry(editedInputPhoneBookName, inputCustName,
+				inputCustNum);
 
 		if (isExistingPrimaryPhoneBookEntry) {
 			// Update operation was performed
@@ -237,7 +229,7 @@ public class PhoneBookApplication implements CommandLineRunner {
 		log.info("inputPhoneBookName: " + inputPhoneBookName);
 
 		// Validate the user input
-		if (!isValidInputPhoneBookName()) {
+		if (!phoneBookValidationService.isValidInputPhoneBookName(inputPhoneBookName)) {
 			return;
 		}
 
@@ -250,15 +242,7 @@ public class PhoneBookApplication implements CommandLineRunner {
 
 		PhoneBook phoneBook;
 
-		try {
-			phoneBook = phoneBookService.readAllEntriesFromSinglePhoneBook(editedInputPhoneBookName);
-		} catch (InvalidPhoneBookNameException invalidPhoneBookNameException) {
-			System.out.println("Invalid phoneBook selection!");
-			System.out.println(phoneBookA.getPhoneBookName() + " (A)" + " | " + phoneBookB.getPhoneBookName() + " (B)");
-			System.out.println("");
-
-			return;
-		}
+		phoneBook = phoneBookService.readAllEntriesFromSinglePhoneBook(editedInputPhoneBookName);
 
 		System.out.println("<" + phoneBook.getPhoneBookName() + ">");
 		System.out.println("Customer name | Customer phone number");
@@ -303,11 +287,11 @@ public class PhoneBookApplication implements CommandLineRunner {
 
 		boolean isHaveInputError = false;
 
-		if (!isValidInputPhoneBookName()) {
+		if (!phoneBookValidationService.isValidInputPhoneBookName(inputPhoneBookName)) {
 			isHaveInputError = true;
 		}
 
-		if (!isValidInputCustName()) {
+		if (!phoneBookValidationService.isValidInputCustName(inputCustName)) {
 			isHaveInputError = true;
 		}
 
@@ -320,16 +304,8 @@ public class PhoneBookApplication implements CommandLineRunner {
 
 		boolean isExistingPhoneBookEntry = false;
 
-		try {
-			isExistingPhoneBookEntry = phoneBookService.deleteEntryFromSinglePhoneBook(editedInputPhoneBookName,
-					inputCustName);
-		} catch (InvalidPhoneBookNameException invalidPhoneBookNameException) {
-			System.out.println("Invalid phoneBook selection!");
-			System.out.println(phoneBookA.getPhoneBookName() + " (A)" + " | " + phoneBookB.getPhoneBookName() + " (B)");
-			System.out.println("");
-
-			return;
-		}
+		isExistingPhoneBookEntry = phoneBookService.deleteEntryFromSinglePhoneBook(editedInputPhoneBookName,
+				inputCustName);
 
 		if (isExistingPhoneBookEntry) {
 			// Existing entry found and deleted
@@ -342,67 +318,5 @@ public class PhoneBookApplication implements CommandLineRunner {
 			System.out.println("No existing entry for \"" + inputCustName + "\" found, please check and confirm.");
 			System.out.println("");
 		}
-	}
-
-	/**
-	 * Validate the user input for phone book name.
-	 * 
-	 * @return
-	 */
-	private boolean isValidInputPhoneBookName() {
-		if (!inputPhoneBookName.matches(phoneBookNameRegex)) {
-			System.out.println("");
-			System.out.println("Invalid phoneBook selection!");
-			System.out.println(phoneBookA.getPhoneBookName() + " (A)" + " | " + phoneBookB.getPhoneBookName() + " (B)");
-			System.out.println("");
-			log.error("Invalid phoneBook selection");
-			log.error("inputPhoneBookName: " + inputPhoneBookName);
-
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Validate the user input for customer name.
-	 * 
-	 * @return
-	 */
-	private boolean isValidInputCustName() {
-		if (!inputCustName.matches(custNameRegex)) {
-			System.out.println("");
-			System.out.println("Invalid customer name!");
-			System.out.println(
-					"Customer names should be composed of alphabets (case sensitive) and digits only, with maximum length of 70 characters.");
-			System.out.println("");
-			log.error("Invalid customer name");
-			log.error("inputCustName: " + inputCustName);
-
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Validate the user input for customer phone number.
-	 * 
-	 * @return
-	 */
-	private boolean isValidInputCustNum() {
-		if (!inputCustNum.matches(custNumRegex)) {
-			System.out.println("");
-			System.out.println("Invalid customer phone number!");
-			System.out.println(
-					"Customer phone numbers should be composed of digits only, with maximum length of 30 characters.");
-			System.out.println("");
-			log.error("Invalid customer phone number");
-			log.error("inputCustNum: " + inputCustNum);
-
-			return false;
-		}
-
-		return true;
 	}
 }

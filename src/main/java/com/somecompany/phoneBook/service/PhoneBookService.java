@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.somecompany.phoneBook.exception.InvalidPhoneBookNameException;
 import com.somecompany.phoneBook.model.PhoneBook;
 
 import lombok.extern.slf4j.Slf4j;
@@ -50,10 +49,8 @@ public class PhoneBookService {
 	 * @param name
 	 * @param number
 	 * @return isExistingPrimaryPhoneBookEntry
-	 * @throws InvalidPhoneBookNameException
 	 */
-	public boolean createOrUpdateEntry(String phoneBookName, String custName, String custNum)
-			throws InvalidPhoneBookNameException {
+	public boolean createOrUpdateEntry(String phoneBookName, String custName, String custNum) {
 		log.info("phoneBookName: " + phoneBookName);
 
 		// Indicates whether the customer entry is already existing
@@ -62,14 +59,9 @@ public class PhoneBookService {
 		if (phoneBookName.equals(phoneBookA.getPhoneBookName())) {
 			// Update phoneBookA and edit phoneBookB if necessary
 			isExistingPrimaryPhoneBookEntry = executeCreateOrUpdateEntry(phoneBookA, phoneBookB, custName, custNum);
-		} else if (phoneBookName.equals(phoneBookB.getPhoneBookName())) {
+		} else {
 			// Update phoneBookB and edit phoneBookA if necessary
 			isExistingPrimaryPhoneBookEntry = executeCreateOrUpdateEntry(phoneBookB, phoneBookA, custName, custNum);
-		} else {
-			// The input phone book name is invalid
-
-			log.error("Invalid phoneBook selection");
-			throw new InvalidPhoneBookNameException();
 		}
 
 		return isExistingPrimaryPhoneBookEntry;
@@ -135,22 +127,16 @@ public class PhoneBookService {
 	 * 
 	 * 
 	 * @return PhoneBook
-	 * @throws InvalidPhoneBookNameException
 	 */
-	public PhoneBook readAllEntriesFromSinglePhoneBook(String phoneBookName) throws InvalidPhoneBookNameException {
+	public PhoneBook readAllEntriesFromSinglePhoneBook(String phoneBookName) {
 		if (phoneBookName.equals(phoneBookA.getPhoneBookName())) {
 			// Fetching phoneBookA
 
 			return phoneBookA;
-		} else if (phoneBookName.equals(phoneBookB.getPhoneBookName())) {
+		} else {
 			// Fetching phoneBookB
 
 			return phoneBookB;
-		} else {
-			// The input phone book name is invalid
-
-			log.error("Invalid phoneBook selection");
-			throw new InvalidPhoneBookNameException();
 		}
 
 	}
@@ -175,10 +161,8 @@ public class PhoneBookService {
 	 * @param phoneBookName
 	 * @param custName
 	 * @return isExistingPhoneBookEntry
-	 * @throws InvalidPhoneBookNameException
 	 */
-	public boolean deleteEntryFromSinglePhoneBook(String phoneBookName, String custName)
-			throws InvalidPhoneBookNameException {
+	public boolean deleteEntryFromSinglePhoneBook(String phoneBookName, String custName) {
 		boolean isExistingPhoneBookEntry = true;
 
 		if (phoneBookName.equals(phoneBookA.getPhoneBookName())) {
@@ -188,17 +172,12 @@ public class PhoneBookService {
 				isExistingPhoneBookEntry = false;
 			}
 			;
-		} else if (phoneBookName.equals(phoneBookB.getPhoneBookName())) {
+		} else {
 			// Removing entry from phoneBookB
 
 			if (phoneBookB.getEntry().remove(custName) == null) {
 				isExistingPhoneBookEntry = false;
 			}
-		} else {
-			// The input phone book name is invalid
-
-			log.error("Invalid phoneBook selection");
-			throw new InvalidPhoneBookNameException();
 		}
 
 		return isExistingPhoneBookEntry;

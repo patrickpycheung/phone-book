@@ -15,11 +15,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.somecompany.phoneBook.exception.InvalidCustNameException;
+import com.somecompany.phoneBook.exception.InvalidCustNumException;
 import com.somecompany.phoneBook.exception.InvalidPhoneBookNameException;
 import com.somecompany.phoneBook.model.CreateEntryReqParam;
 import com.somecompany.phoneBook.model.PhoneBook;
 import com.somecompany.phoneBook.model.UpdateEntryReqParam;
 import com.somecompany.phoneBook.service.PhoneBookService;
+import com.somecompany.phoneBook.service.PhoneBookValidationService;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +42,18 @@ public class PhoneBookController {
 	@Autowired
 	private PhoneBookService phoneBookService;
 
+	@Autowired
+	private PhoneBookValidationService phoneBookValidationService;
+
+	@Autowired
+	private InvalidPhoneBookNameException invalidPhoneBookNameException;
+
+	@Autowired
+	private InvalidCustNameException invalidCustNameException;
+
+	@Autowired
+	private InvalidCustNumException invalidCustNumException;
+
 	@Value("${phoneBook.name.base}")
 	private String phoneBookNameBase;
 
@@ -48,6 +63,20 @@ public class PhoneBookController {
 		String inputPhoneBookName = createEntryReqParam.getPhoneBookName();
 		String inputCustName = createEntryReqParam.getCustName();
 		String inputCustNum = createEntryReqParam.getCustNum();
+
+		// Validate the inputs
+
+		if (!phoneBookValidationService.isValidInputPhoneBookName(inputPhoneBookName)) {
+			return ResponseEntity.badRequest().body(invalidPhoneBookNameException.getMessage());
+		}
+
+		if (!phoneBookValidationService.isValidInputCustName(inputCustName)) {
+			return ResponseEntity.badRequest().body(invalidCustNameException.getMessage());
+		}
+
+		if (!phoneBookValidationService.isValidInputCustNum(inputCustNum)) {
+			return ResponseEntity.badRequest().body(invalidCustNumException.getMessage());
+		}
 
 		ResponseEntity<Object> responseEntity = doCreateOrUpdateEntry(inputPhoneBookName, inputCustName, inputCustNum);
 
@@ -66,18 +95,16 @@ public class PhoneBookController {
 	@ApiOperation(value = "Read all entries from single phone book")
 	public ResponseEntity<Object> readAllEntriesFromSinglePhoneBook(@PathVariable String phoneBookName) {
 
+		// Validate the input
+
+		if (!phoneBookValidationService.isValidInputPhoneBookName(phoneBookName)) {
+			return ResponseEntity.badRequest().body(invalidPhoneBookNameException.getMessage());
+		}
+
 		String editedInputPhoneBookName = phoneBookNameBase.concat(phoneBookName.toUpperCase());
 		log.info("editedInputPhoneBookName: " + editedInputPhoneBookName);
 
-		PhoneBook phoneBook;
-
-		try {
-			phoneBook = phoneBookService.readAllEntriesFromSinglePhoneBook(editedInputPhoneBookName);
-		} catch (InvalidPhoneBookNameException invalidPhoneBookNameException) {
-			// The input phone book name is invalid
-
-			return ResponseEntity.badRequest().body(invalidPhoneBookNameException.getMessage());
-		}
+		PhoneBook phoneBook = phoneBookService.readAllEntriesFromSinglePhoneBook(editedInputPhoneBookName);
 
 		return ResponseEntity.ok(phoneBook);
 	}
@@ -94,7 +121,22 @@ public class PhoneBookController {
 	@ApiOperation(value = "Update an existing phone book entry")
 	public ResponseEntity<Object> updateEntry(@PathVariable String phoneBookName, @PathVariable String custName,
 			@RequestBody UpdateEntryReqParam updateEntryReqParam) {
+
 		String inputCustNum = updateEntryReqParam.getCustNum();
+
+		// Validate the inputs
+
+		if (!phoneBookValidationService.isValidInputPhoneBookName(phoneBookName)) {
+			return ResponseEntity.badRequest().body(invalidPhoneBookNameException.getMessage());
+		}
+
+		if (!phoneBookValidationService.isValidInputCustName(custName)) {
+			return ResponseEntity.badRequest().body(invalidCustNameException.getMessage());
+		}
+
+		if (!phoneBookValidationService.isValidInputCustNum(inputCustNum)) {
+			return ResponseEntity.badRequest().body(invalidCustNumException.getMessage());
+		}
 
 		ResponseEntity<Object> responseEntity = doCreateOrUpdateEntry(phoneBookName, custName, inputCustNum);
 
@@ -105,19 +147,23 @@ public class PhoneBookController {
 	@ApiOperation(value = "Delete an entry from single phone book")
 	public ResponseEntity<Object> deleteEntryFromSinglePhoneBook(@PathVariable String phoneBookName,
 			@PathVariable String custName) {
+
+		// Validate the inputs
+
+		if (!phoneBookValidationService.isValidInputPhoneBookName(phoneBookName)) {
+			return ResponseEntity.badRequest().body(invalidPhoneBookNameException.getMessage());
+		}
+
+		if (!phoneBookValidationService.isValidInputCustName(custName)) {
+			return ResponseEntity.badRequest().body(invalidCustNameException.getMessage());
+		}
+
 		String editedInputPhoneBookName = phoneBookNameBase.concat(phoneBookName.toUpperCase());
 		log.info("editedInputPhoneBookName: " + editedInputPhoneBookName);
 
 		boolean isExistingPhoneBookEntry = false;
 
-		try {
-			isExistingPhoneBookEntry = phoneBookService.deleteEntryFromSinglePhoneBook(editedInputPhoneBookName,
-					custName);
-		} catch (InvalidPhoneBookNameException invalidPhoneBookNameException) {
-			// The input phone book name is invalid
-
-			return ResponseEntity.badRequest().body(invalidPhoneBookNameException.getMessage());
-		}
+		isExistingPhoneBookEntry = phoneBookService.deleteEntryFromSinglePhoneBook(editedInputPhoneBookName, custName);
 
 		if (isExistingPhoneBookEntry) {
 			// Existing entry found and deleted
@@ -147,14 +193,8 @@ public class PhoneBookController {
 
 		boolean isExistingPrimaryPhoneBookEntry = false;
 
-		try {
-			isExistingPrimaryPhoneBookEntry = phoneBookService.createOrUpdateEntry(editedInputPhoneBookName,
-					inputCustName, inputCustNum);
-		} catch (InvalidPhoneBookNameException invalidPhoneBookNameException) {
-			// The input phone book name is invalid
-
-			return ResponseEntity.badRequest().body(invalidPhoneBookNameException.getMessage());
-		}
+		isExistingPrimaryPhoneBookEntry = phoneBookService.createOrUpdateEntry(editedInputPhoneBookName, inputCustName,
+				inputCustNum);
 
 		if (isExistingPrimaryPhoneBookEntry) {
 			// Update operation was performed

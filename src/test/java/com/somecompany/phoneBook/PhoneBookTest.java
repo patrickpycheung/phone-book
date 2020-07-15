@@ -17,6 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.somecompany.phoneBook.exception.InvalidPhoneBookNameException;
 import com.somecompany.phoneBook.model.PhoneBook;
 import com.somecompany.phoneBook.service.PhoneBookService;
+import com.somecompany.phoneBook.util.PhoneBookTestUtil;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {
@@ -50,7 +51,7 @@ public class PhoneBookTest {
 	 * @throws InvalidPhoneBookNameException
 	 */
 	@Test
-	public void shouldBeAbleToCreateANewEntryInPhoneBookAIfNoneExist() throws InvalidPhoneBookNameException {
+	public void shouldBeAbleToCreateANewEntryInPhoneBookAIfNoneExist() {
 		phoneBookA.getEntry().clear();
 		phoneBookB.getEntry().clear();
 
@@ -70,7 +71,7 @@ public class PhoneBookTest {
 	 * @throws InvalidPhoneBookNameException
 	 */
 	@Test
-	public void shouldBeAbleToUpdateEntryInPhoneBookAIfAlreadyExist() throws InvalidPhoneBookNameException {
+	public void shouldBeAbleToUpdateEntryInPhoneBookAIfAlreadyExist() {
 		phoneBookA.getEntry().clear();
 		phoneBookB.getEntry().clear();
 
@@ -92,8 +93,7 @@ public class PhoneBookTest {
 	 * @throws InvalidPhoneBookNameException
 	 */
 	@Test
-	public void shouldBeAbleToUpdateEntryInPhoneBookAIfAlreadyExistAndUpdatePhoneBookBIfAlreadyExist()
-			throws InvalidPhoneBookNameException {
+	public void shouldBeAbleToUpdateEntryInPhoneBookAIfAlreadyExistAndUpdatePhoneBookBIfAlreadyExist() {
 		phoneBookA.getEntry().clear();
 		phoneBookB.getEntry().clear();
 
@@ -116,8 +116,7 @@ public class PhoneBookTest {
 	 * @throws InvalidPhoneBookNameException
 	 */
 	@Test
-	public void shouldBeAbleToCreateANewEntryInPhoneBookAIfNoneExistAndUpdatePhoneBookBIfAlreadyExist()
-			throws InvalidPhoneBookNameException {
+	public void shouldBeAbleToCreateANewEntryInPhoneBookAIfNoneExistAndUpdatePhoneBookBIfAlreadyExist() {
 		phoneBookA.getEntry().clear();
 		phoneBookB.getEntry().clear();
 
@@ -158,7 +157,7 @@ public class PhoneBookTest {
 	 * @throws InvalidPhoneBookNameException
 	 */
 	@Test
-	public void shouldBeAbleToReadAllEntriesInSinglePhoneBook() throws InvalidPhoneBookNameException {
+	public void shouldBeAbleToReadAllEntriesInSinglePhoneBook() {
 		phoneBookA.getEntry().clear();
 
 		String randomCustName = phoneBookTestUtil.getRandomCustName();
@@ -206,7 +205,7 @@ public class PhoneBookTest {
 	 * @throws InvalidPhoneBookNameException
 	 */
 	@Test
-	public void shouldBeAbleToDeleteEntryFromSinglePhoneBook() throws InvalidPhoneBookNameException {
+	public void shouldBeAbleToDeleteEntryFromSinglePhoneBook() {
 		phoneBookA.getEntry().clear();
 		phoneBookB.getEntry().clear();
 
@@ -230,7 +229,7 @@ public class PhoneBookTest {
 	 * @throws InvalidPhoneBookNameException
 	 */
 	@Test
-	public void shouldBeAbleToHandleNoEntryInPhoneWhenAttemptToDelete() throws InvalidPhoneBookNameException {
+	public void shouldBeAbleToHandleNoEntryInPhoneWhenAttemptToDelete() {
 		phoneBookA.getEntry().clear();
 		phoneBookB.getEntry().clear();
 

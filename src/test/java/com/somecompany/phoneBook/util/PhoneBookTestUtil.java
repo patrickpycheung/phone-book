@@ -1,4 +1,4 @@
-package com.somecompany.phoneBook;
+package com.somecompany.phoneBook.util;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Value;
