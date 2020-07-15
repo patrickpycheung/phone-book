@@ -25,7 +25,7 @@ FROM openjdk:8-jdk-alpine
 WORKDIR /opt/app
 
 #Copy the built jar to the application folder on the container
-COPY --from=build /opt/source/phone-book/target/phoneBook-1.0.0-SNAPSHOT.jar app.jar
+COPY --from=build /opt/source/phone-book/target/phoneBook-1.0.0.jar app.jar
 
 # Run application in container
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java","-Dspring.profiles.active=prod","-jar","app.jar"]
