@@ -57,9 +57,13 @@ The following assumptions are being made for the application:
 
     mvn clean package
 
+  <img src="https://lxxtfa.bn.files.1drv.com/y4mjahS2TFQ6bERG4gBXr_IhUHfHx_xNt9WmhQpvOB_m9RIZcC3QyNcG6bciTme1RBZ9mvpvGYwvjLaegQt6fpyLPxYHrCct7TxJ5JFeYikHceD_rAv5BBfzIdyNgkhqM_6fX0Um11BLD3gwZwaOYCfuM2s1-2UhIuIQi7fSeQsBS18h34xeXChNljWi3qDToxQmcMqH2xdaNb_KnU9FzVZ3A?width=1792&height=324&cropmode=none" title="Build_JAR_01" alt="Build_JAR_01">
+
+  <img src="https://knun5w.bn.files.1drv.com/y4mmhJNhg-zNxZEXMUKO5VGBvSoCiNKqhOxFZY4bjO1WHstv9Ufe9IeFJc4AQAMDzHywuTAmU42r3x7z2TotmvPWiM5_AjTMfP8x-XiT-3Cl4EiapfVqOI60wH9xH1pzePRdiI_OJ--huIqo66ysX5IUPdYrh05hv5dTOAmfeelJ8PXjyrjQyL8y9jIASHq1DluP040EAi9pE0Ezr5RpfOiyQ?width=2746&height=924&cropmode=none" title="Build_JAR_02" alt="Build_JAR_02">
+
   The outcome would be a jar file in the target folder which can be executed as per description in [**here**](#by-maven).
 
-  TO BE SUPPLEMENTED -> image of prod jar in target folder
+  <img src="https://jwcara.bn.files.1drv.com/y4mzatP6hY5lmQg7UMEGPq3_aafRwW8IJ-Bwz-KJuGRF-RPnhp0t_uC-ykKiM5xKkOBgmpwcURPfHIOuV5nLZ94VHctf7D_YZptiGkKhtuypvkLtDfAFUO5sYwgzzk641eQfc1wMtbyFxL53GHkbRTDKhymrV9QCoQHMPZjbLjM0x-YxPyA3OIwcU5bsIiW13paUzPQTJ9pSpQBmh4xn0AVGg?width=858&height=518&cropmode=none" title="Built_JAR" alt="Built_JAR">
 
   ### **Running the application**
   #### **Console application**
@@ -68,7 +72,7 @@ The following assumptions are being made for the application:
   Dockerhub repository location:<br/>
   https://hub.docker.com/r/patrick888/phone-book
 
-  Pull the lastest "prod" docker image from dockerhub with the following command (Note: docker runtime required):
+  Pull the lastest "prod" docker image (docker tag "prod-{version}") from dockerhub with the following command (Note: docker runtime required):
 
     docker pull patrick888/phone-book:prod-1.0.0
 
