@@ -156,15 +156,22 @@ public class PhoneBookApplication implements CommandLineRunner {
 		log.info("inputCustNum: " + inputCustNum);
 
 		// Validate the user input
+
+		boolean isHaveInputError = false;
+
 		if (!isValidInputPhoneBookName()) {
-			return;
+			isHaveInputError = true;
 		}
 
 		if (!isValidInputCustName()) {
-			return;
+			isHaveInputError = true;
 		}
 
 		if (!isValidInputCustNum()) {
+			isHaveInputError = true;
+		}
+
+		if (isHaveInputError) {
 			return;
 		}
 
@@ -291,11 +298,18 @@ public class PhoneBookApplication implements CommandLineRunner {
 		log.info("inputCustName: " + inputCustName);
 
 		// Validate the user input
+
+		boolean isHaveInputError = false;
+
 		if (!isValidInputPhoneBookName()) {
-			return;
+			isHaveInputError = true;
 		}
 
 		if (!isValidInputCustName()) {
+			isHaveInputError = true;
+		}
+
+		if (isHaveInputError) {
 			return;
 		}
 
