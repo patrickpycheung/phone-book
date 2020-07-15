@@ -68,6 +68,7 @@ public class PhoneBookService {
 		} else {
 			// The input phone book name is invalid
 
+			log.error("Invalid phoneBook selection");
 			throw new InvalidPhoneBookNameException();
 		}
 
@@ -148,6 +149,7 @@ public class PhoneBookService {
 		} else {
 			// The input phone book name is invalid
 
+			log.error("Invalid phoneBook selection");
 			throw new InvalidPhoneBookNameException();
 		}
 
@@ -195,6 +197,7 @@ public class PhoneBookService {
 		} else {
 			// The input phone book name is invalid
 
+			log.error("Invalid phoneBook selection");
 			throw new InvalidPhoneBookNameException();
 		}
 

@@ -94,6 +94,8 @@ public class PhoneBookApplication implements CommandLineRunner {
 
 			if (!inputOperation.matches(operationRegex)) {
 				System.out.println("You may have provided an invalid input, please try again.");
+				log.error("Invalid operation");
+				log.error("inputOperation: " + inputOperation);
 				continue;
 			}
 
@@ -353,6 +355,8 @@ public class PhoneBookApplication implements CommandLineRunner {
 			System.out.println("Invalid phoneBook selection!");
 			System.out.println(phoneBookA.getPhoneBookName() + " (A)" + " | " + phoneBookB.getPhoneBookName() + " (B)");
 			System.out.println("");
+			log.error("Invalid phoneBook selection");
+			log.error("inputPhoneBookName: " + inputPhoneBookName);
 
 			return false;
 		}
@@ -372,6 +376,8 @@ public class PhoneBookApplication implements CommandLineRunner {
 			System.out.println(
 					"Customer names should be composed of alphabets (case sensitive) and digits only, with maximum length of 70 characters.");
 			System.out.println("");
+			log.error("Invalid customer name");
+			log.error("inputCustName: " + inputCustName);
 
 			return false;
 		}
@@ -391,6 +397,8 @@ public class PhoneBookApplication implements CommandLineRunner {
 			System.out.println(
 					"Customer phone numbers should be composed of digits only, with maximum length of 30 characters.");
 			System.out.println("");
+			log.error("Invalid customer phone number");
+			log.error("inputCustNum: " + inputCustNum);
 
 			return false;
 		}
