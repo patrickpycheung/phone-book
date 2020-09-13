@@ -1,0 +1,10 @@
+version: 0.0
+os: linux
+files:
+  - source: ./target/phoneBook-1.0.0.jar
+    destination: /opt/app/
+hooks:
+  ApplicationStart:
+    - location: runapp.sh
+      runas: root
+
