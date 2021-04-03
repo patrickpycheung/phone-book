@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.somecompany</groupId>
-	<artifactId>reece-phone-book</artifactId>
+	<artifactId>phone-book</artifactId>
 	<version>1.0.0</version>
-	<name>Reece phone book application</name>
+	<name>Phone book application</name>
 	<description>Application for managing 2 phone books</description>
 
 	<properties>
